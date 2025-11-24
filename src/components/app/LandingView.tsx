@@ -11,7 +11,7 @@ interface LandingViewProps {
 }
 
 const LandingView = ({ t, inputs, error, onPromptChange, onSubmit }: LandingViewProps) => (
-	<main className="relative flex min-h-screen flex-col justify-center px-6 pt-20 lg:px-20">
+	<main className="relative min-h-dvh w-full px-6 pb-16 pt-32 lg:px-20">
 		<div className="relative z-10 mx-auto w-full max-w-7xl">
 			<h1 className="mb-12 font-serif text-6xl leading-[0.9] tracking-tight md:text-[8rem]">
 				<span className="block opacity-0 animate-[fadeIn_1s_ease-out_forwards]">{t.landingTitle1}</span>

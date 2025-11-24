@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BackgroundDecor from './BackgroundDecor';
 import DashboardView from './DashboardView';
 import ErrorState from './ErrorState';
@@ -120,6 +120,15 @@ const EquityApp = () => {
 		}
 	};
 
+	useEffect(() => {
+		if (typeof document === 'undefined') return;
+		const originalOverflow = document.body.style.overflow;
+		document.body.style.overflow = showSettings ? 'hidden' : '';
+		return () => {
+			document.body.style.overflow = originalOverflow;
+		};
+	}, [showSettings]);
+
 	const handleReset = () => {
 		setView('landing');
 		setResultData(null);
@@ -128,7 +137,7 @@ const EquityApp = () => {
 	};
 
 	return (
-		<div className="selection:text-emerald-200 selection:bg-emerald-500/30 font-sans text-white min-h-screen bg-[#0a0a0a] overflow-x-hidden">
+		<div className="selection:bg-emerald-500/30 selection:text-emerald-200 min-h-dvh bg-[#0a0a0a] font-sans text-white overflow-x-hidden">
 			<BackgroundDecor />
 			<HeaderBar
 				appTitle={t.appTitle}
