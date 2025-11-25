@@ -171,9 +171,14 @@ const EquityApp = () => {
 			{view === 'dashboard' && (
 				<main className="min-h-screen px-4 pb-12 pt-24 md:px-8">
 					{isAnalyzing && <LoadingState t={t} apiConfig={apiConfig} />}
-					{!isAnalyzing && resultData && (
-						<DashboardView t={t} resultData={resultData} promptInputs={promptInputs} />
-					)}
+						{!isAnalyzing && resultData && (
+							<DashboardView
+								t={t}
+								resultData={resultData}
+								promptInputs={promptInputs}
+								language={apiConfig.language}
+							/>
+						)}
 					{!isAnalyzing && !resultData && <ErrorState t={t} error={error} onReset={handleReset} />}
 				</main>
 			)}

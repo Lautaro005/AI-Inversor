@@ -1,6 +1,17 @@
 import type { AnalysisResponse, ApiConfig } from './types';
 
 export const buildSystemPrompt = (apiConfig: ApiConfig) => {
+	const currentYear = new Date().getFullYear();
+	const fundamentalsYears: string[] = [];
+	for (let year = currentYear - 4; year <= currentYear; year += 1) {
+		fundamentalsYears.push(`${year}`);
+	}
+	fundamentalsYears.push(`${currentYear + 1} (Est)`);
+
+	const fundamentalsSchema = fundamentalsYears
+		.map((label) => `    {"year": "${label}", "revenue": number, "ebitda": number}`)
+		.join(',\n');
+
 	const langInstruction =
 		apiConfig.language === 'es'
 			? 'You MUST respond in SPANISH. Translate all qualitative analysis to Spanish.'
@@ -16,6 +27,8 @@ ${roleDefinition}
 TASK: Analyze the requested company ticker. You MUST access real-time data (if capable) or use your internal knowledge base.
 ${langInstruction}
 
+Ensure quantitative data stays current through ${currentYear} with ${currentYear + 1} shown as an estimate.
+
 OUTPUT FORMAT: You must respond with ONLY valid JSON. Do not include markdown formatting like \`\`\`json. 
 IMPORTANT: The JSON object KEYS (e.g., "fundamentals", "revenue", "verdict") MUST remain in ENGLISH exactly as shown below for the code to work. The VALUES (strings) should be in ${
 		apiConfig.language === 'es' ? 'Spanish' : 'English'
@@ -24,11 +37,7 @@ IMPORTANT: The JSON object KEYS (e.g., "fundamentals", "revenue", "verdict") MUS
 JSON Schema:
 {
   "fundamentals": [
-    {"year": "2020", "revenue": number, "ebitda": number},
-    {"year": "2021", "revenue": number, "ebitda": number},
-    {"year": "2022", "revenue": number, "ebitda": number},
-    {"year": "2023", "revenue": number, "ebitda": number},
-    {"year": "2024 (Est)", "revenue": number, "ebitda": number}
+${fundamentalsSchema}
   ],
   "valuation": [
     {"metric": "P/E Ratio", "value": number, "peerAvg": number},
