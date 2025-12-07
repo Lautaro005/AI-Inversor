@@ -144,7 +144,6 @@ export const PROVIDERS: ProviderMap = {
 		name: 'OpenRouter',
 		url: 'https://openrouter.ai/api/v1/chat/completions',
 		models: [
-			'x-ai/grok-4.1-fast:free',
 			'perplexity/sonar-deep-research',
 			'openai/gpt-4o',
 			'google/gemma-3-27b-it',
